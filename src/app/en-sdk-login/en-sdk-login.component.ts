@@ -6,7 +6,7 @@ import { AuthService } from "app/shared/okta/okta-en-authentication";
 import { ViewEncapsulation } from '@angular/core';
 // import { OktaSDKAuthService } from 'app/shared/okta/okta-auth-service';
 import { OktaConfig } from "app/shared/okta/okta-config";
-import {enOktaWidgetService} from 'app/shared/okta/okta-en-widget.service';
+import { enOktaWidgetService } from 'app/shared/okta/okta-en-widget.service';
 
 @Component({
   selector: 'app-en-sdk-login',
@@ -20,12 +20,16 @@ export class EnSdkLoginComponent implements OnInit {
   private returnUrl: string;
   strLanguage: any;
   // constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig,private oktaSDKAuth: OktaSDKAuthService) {}
-  constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig,private widgetLogin: enOktaWidgetService) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private OktaConfig: OktaConfig, private widgetLogin: enOktaWidgetService) { }
 
-  ngOnInit(){   
+  async ngOnInit() {
+    if (await this.authService.checkAuthenticated()) {
+      await console.log("logged in, redirecting you to the home page");
+      window.location.replace(this.OktaConfig.strEnPortal);
+
+    }
     this.widgetLogin.CloseWidget();
-    this.widgetLogin.login();    
-    
+    this.widgetLogin.login();
   }
 
 
@@ -45,11 +49,11 @@ export class EnSdkLoginComponent implements OnInit {
   //     username: ["", Validators.email],
   //     password: ["", Validators.required]
   //   });
-    
+
   //   if (await this.authService.checkAuthenticated()) {
   //     await console.log("logged in, redirecting you to the home page");
   //     window.location.replace(this.OktaConfig.strEnPortal);
-      
+
   //   }
   // }
 
