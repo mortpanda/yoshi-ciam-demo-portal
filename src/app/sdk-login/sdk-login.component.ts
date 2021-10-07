@@ -5,6 +5,7 @@ import { AuthService } from "app/shared/okta/okta-authentication";
 import { ViewEncapsulation } from '@angular/core';
 // import { OktaSDKAuthService } from 'app/shared/okta/okta-auth-service';
 import { OktaConfig } from "app/shared/okta/okta-config";
+import {OktaWidgetService} from 'app/shared/okta/okta-widget.service';
 
 @Component({
   selector: 'app-sdk-login',
@@ -20,46 +21,54 @@ export class SdkLoginComponent implements OnInit {
   strLanguage: any;
 
   // constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig,private oktaSDKAuth: OktaSDKAuthService) {}
-  constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig) {}
+  constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig,private widgetLogin: OktaWidgetService) {}
 
-  async ngOnInit() {
-    this.strLanguage = '日本語';
-    this.loginform = this.fb.group({
-      username: ["", Validators.email],
-      password: ["", Validators.required]
-    });
+ 
+ 
+  ngOnInit(){   
+    this.widgetLogin.CloseWidget();
+    this.widgetLogin.login();    
     
-    if (await this.authService.checkAuthenticated()) {
-      await console.log("logged in, redirecting you to the home page");
-      window.location.replace(this.OktaConfig.strRedirectURL);
+  }
+ 
+  // async ngOnInit() {
+  //   this.strLanguage = '日本語';
+  //   this.loginform = this.fb.group({
+  //     username: ["", Validators.email],
+  //     password: ["", Validators.required]
+  //   });
+    
+  //   if (await this.authService.checkAuthenticated()) {
+  //     await console.log("logged in, redirecting you to the home page");
+  //     window.location.replace(this.OktaConfig.strRedirectURL);
       
-    }
-  }
+  //   }
+  // }
 
-  async onSubmit() {
-    console.log("event fired");
-    console.log("loginInvalid", this.loginInvalid);
-    console.log("formSubmitAttempt", this.formSubmitAttempt);
-    console.log("returnUrl", this.OktaConfig.strRedirectURL);
+  // async onSubmit() {
+  //   console.log("event fired");
+  //   console.log("loginInvalid", this.loginInvalid);
+  //   console.log("formSubmitAttempt", this.formSubmitAttempt);
+  //   console.log("returnUrl", this.OktaConfig.strRedirectURL);
 
-    this.loginInvalid = false;
-    this.formSubmitAttempt = false;
-    //if (this.loginform.valid) {
-      //try {
-        var username = this.loginform.get("username").value;
-        var password = this.loginform.get("password").value;
-        await this.authService.login(username, password);
-        //} catch (err) {
-        //alert(this.authService.strstateToken)      
-        this.loginInvalid = true;
-      //}
-    //} else 
-    {
-      this.formSubmitAttempt = true;
-      //console.log("username", username);
-      //console.log("password", password);
-    }
-  }
+  //   this.loginInvalid = false;
+  //   this.formSubmitAttempt = false;
+  //   //if (this.loginform.valid) {
+  //     //try {
+  //       var username = this.loginform.get("username").value;
+  //       var password = this.loginform.get("password").value;
+  //       await this.authService.login(username, password);
+  //       //} catch (err) {
+  //       //alert(this.authService.strstateToken)      
+  //       this.loginInvalid = true;
+  //     //}
+  //   //} else 
+  //   {
+  //     this.formSubmitAttempt = true;
+  //     //console.log("username", username);
+  //     //console.log("password", password);
+  //   }
+  // }
   logout(){
     this.authService.OktaLogout();
     }

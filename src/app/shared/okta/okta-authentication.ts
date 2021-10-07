@@ -11,12 +11,7 @@ import { OktaConfig } from "app/shared/okta/okta-config";
   providedIn: "root"
 })
 
-
-
 export class AuthService {
-
-
-
   private authClient = new OktaAuth({
     issuer: this.OktaConfig.strIssuer,
     clientId: this.OktaConfig.strClientID,
