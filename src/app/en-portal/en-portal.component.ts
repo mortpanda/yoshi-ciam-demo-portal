@@ -35,7 +35,7 @@ export class EnPortalComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar, private oktaSDKAuth: OktaSDKAuthService,private OktaConfig: OktaConfig) { }
 
   async ngOnInit() {
-    document.getElementById("memberSite").style.visibility = "hidden";
+    // document.getElementById("memberSite").style.visibility = "hidden";
     document.getElementById("memberBBS").style.visibility = "hidden";
     document.getElementById("memberMoodle").style.visibility = "hidden";
     document.getElementById("memberDentaku").style.visibility = "hidden";
@@ -90,11 +90,11 @@ export class EnPortalComponent implements OnInit {
               document.getElementById("memberMoodle").style.visibility = "visible";
               break;
 
-            case "ANGULAR-CIAM-DEMO-PORTAL-WORDPRESS":
-              console.log("found group " + this.arrGroups[i].toUpperCase());
-              console.log("Displaying Wordpress to the user....")
-              document.getElementById("memberSite").style.visibility = "visible";
-              break;
+            // case "ANGULAR-CIAM-DEMO-PORTAL-WORDPRESS":
+            //   console.log("found group " + this.arrGroups[i].toUpperCase());
+            //   console.log("Displaying Wordpress to the user....")
+            //   document.getElementById("memberSite").style.visibility = "visible";
+            //   break;
 
             case "ANGULAR-CIAM-DEMO-PORTAL-WORDPRESS-BB":
               console.log("found group " + this.arrGroups[i].toUpperCase());
