@@ -36,7 +36,7 @@ export class PortalComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar, private oktaSDKAuth: OktaSDKAuthService,private OktaConfig: OktaConfig) { }
 
   async ngOnInit() {
-    document.getElementById("memberSite").style.visibility = "hidden";
+    // document.getElementById("memberSite").style.visibility = "hidden";
     document.getElementById("memberBBS").style.visibility = "hidden";
     document.getElementById("memberMoodle").style.visibility = "hidden";
     document.getElementById("memberDentaku").style.visibility = "hidden";
