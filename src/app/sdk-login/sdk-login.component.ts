@@ -5,7 +5,6 @@ import { AuthService } from "app/shared/okta/okta-authentication";
 import { ViewEncapsulation } from '@angular/core';
 // import { OktaSDKAuthService } from 'app/shared/okta/okta-auth-service';
 import { OktaConfig } from "app/shared/okta/okta-config";
-import { OktaWidgetService } from 'app/shared/okta/okta-widget.service';
 
 @Component({
   selector: 'app-sdk-login',
@@ -21,22 +20,7 @@ export class SdkLoginComponent implements OnInit {
   strLanguage: any;
 
   // constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig,private oktaSDKAuth: OktaSDKAuthService) {}
-  constructor(private fb: FormBuilder, private authService: AuthService, private OktaConfig: OktaConfig, private widgetLogin: OktaWidgetService) { }
-
-
-
-  // async ngOnInit() {
-  //   if (await this.authService.checkAuthenticated()) {
-  //     await console.log("logged in, redirecting you to the home page");
-  //     window.location.replace(this.OktaConfig.strRedirectURL);
-
-  //   }
-  //   this.widgetLogin.CloseWidget();
-  //   this.widgetLogin.login();
-  // }
-
-
-
+  constructor(private fb: FormBuilder, private authService: AuthService,private OktaConfig: OktaConfig) {}
 
   async ngOnInit() {
     this.strLanguage = '日本語';
@@ -44,19 +28,19 @@ export class SdkLoginComponent implements OnInit {
       username: ["", Validators.email],
       password: ["", Validators.required]
     });
-
+    
     if (await this.authService.checkAuthenticated()) {
-      await console.log("logged in, redirecting you to the home page");
+      await console.log("logged in, redirecting you to the portal page : " + this.OktaConfig.strRedirectURL);
       window.location.replace(this.OktaConfig.strRedirectURL);
-
+      
     }
   }
 
   async onSubmit() {
-    console.log("event fired");
-    console.log("loginInvalid", this.loginInvalid);
-    console.log("formSubmitAttempt", this.formSubmitAttempt);
-    console.log("returnUrl", this.OktaConfig.strRedirectURL);
+    // console.log("event fired");
+    // console.log("loginInvalid", this.loginInvalid);
+    // console.log("formSubmitAttempt", this.formSubmitAttempt);
+    console.log("redirectUri = ", this.OktaConfig.strRedirectURL);
 
     this.loginInvalid = false;
     this.formSubmitAttempt = false;
@@ -66,7 +50,8 @@ export class SdkLoginComponent implements OnInit {
         var password = this.loginform.get("password").value;
         await this.authService.login(username, password);
         //} catch (err) {
-        //alert(this.authService.strstateToken)      
+        console.log("stateToken = " + this.authService.strstateToken);
+        console.log("Injecting the stateToken into the Widget");
         this.loginInvalid = true;
       //}
     //} else 
@@ -76,7 +61,9 @@ export class SdkLoginComponent implements OnInit {
       //console.log("password", password);
     }
   }
-  logout() {
+  logout(){
+    
     this.authService.OktaLogout();
-  }
+    
+    }
 }
